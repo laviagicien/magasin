@@ -13,7 +13,7 @@ export class LaPostePage implements OnInit {
   @ViewChild(IonDatetime, { static: true }) datetime: IonDatetime;
 
   dateValue = '';
-  dateValue2 = '';
+  dateValue2 = format(parseISO(new Date().toISOString()), 'dd/MM/yyyy', {locale: fr});
 
   constructor() { }
 

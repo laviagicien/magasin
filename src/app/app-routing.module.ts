@@ -12,6 +12,10 @@ const routes: Routes = [
     path: 'la-poste',
     loadChildren: () => import('./la-poste/la-poste.module').then( m => m.LaPostePageModule)
   },
+  {
+    path: 'mondial-relay',
+    loadChildren: () => import('./mondial-relay/mondial-relay.module').then( m => m.MondialRelayPageModule)
+  },
 ];
 
 @NgModule({

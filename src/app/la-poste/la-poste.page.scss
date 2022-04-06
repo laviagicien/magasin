@@ -1,4 +1,4 @@
-$size: 1rem;
+$size: 0.5rem;
 
 .titre{
     font-size: 1.8*$size;
@@ -13,9 +13,16 @@ $size: 1rem;
     font-size: 1.2*$size;
 }
 
+.button-col{
+    position: relative;
+    margin-top: 2%;
+}
+
 ion-row {
-    line-height: 2.5*$size;
     ion-input{
         font-size: 1.5*$size;
+    }
+    .list-bouton{
+        vertical-align: bottom;
     }
 }

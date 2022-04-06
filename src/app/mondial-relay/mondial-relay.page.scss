@@ -1,0 +1,30 @@
+$size: 0.5rem;
+
+.titre{
+    font-size: 1.8*$size;
+}
+
+.list-label{
+    font-size: 1.5*$size;
+}
+
+.list-bouton{
+    height: 2.5*$size;
+    font-size: 1.2*$size;
+}
+
+ion-row {
+    ion-input{
+        font-size: 1.5*$size;
+    }
+    
+}
+
+.button-col{
+    position: relative;
+    margin-top: 2%;
+}
+
+.selector{
+    font-size: 1.5*$size;
+}

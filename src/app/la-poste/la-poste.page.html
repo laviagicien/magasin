@@ -21,10 +21,8 @@
           </ion-col>
           <ion-col size="4">
             <ion-item>
-              <ion-input [value]="dateValue2"></ion-input>
-              <ion-button fill="clear" id="open-date-input-2" class="list-bouton">
-                <ion-icon icon="calendar"></ion-icon>
-              </ion-button>
+              <ion-label class="list-label" position="floating">Date</ion-label>
+              <ion-input [value]="dateValue2" id="open-date-input-2"></ion-input>
               <ion-popover trigger="open-date-input-2" show-backdrop="false">
                 <ng-template>
                   <ion-datetime
@@ -37,7 +35,7 @@
               </ion-popover>
             </ion-item>
           </ion-col>
-          <ion-col size="1">
+          <ion-col class="button-col" size="1">
               <ion-button shape="round" color="success" size="defeult" class="list-bouton">
                 <ion-icon name="checkbox-outline"></ion-icon>
               </ion-button>
