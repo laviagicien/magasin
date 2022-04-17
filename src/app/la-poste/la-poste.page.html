@@ -43,18 +43,10 @@
         </ion-row>
       </ion-grid>         
       <ion-list >
-        <ion-item>
-          <ion-label class="list-label">2C10980296980</ion-label>
-          <ion-label class="list-label">John Doe</ion-label>
-          <ion-label class="list-label">22/01/2022</ion-label>
-          <ion-button shape="round" color="danger" size="defeult" class="list-bouton">
-            <ion-icon name="trash-outline"></ion-icon>
-          </ion-button>
-        </ion-item>
-        <ion-item>
-          <ion-label class="list-label">1A29801098096</ion-label>
-          <ion-label class="list-label">Jane Smith</ion-label>
-          <ion-label class="list-label">22/01/2022</ion-label>
+        <ion-item *ngFor= "let item of items">
+          <ion-label class="list-label">{{item.getId()}}</ion-label>
+          <ion-label class="list-label">{{item.getName()}}</ion-label>
+          <ion-label class="list-label">{{item.getDate()}}</ion-label>
           <ion-button shape="round" color="danger" size="defeult" class="list-bouton">
             <ion-icon name="trash-outline"></ion-icon>
           </ion-button>

@@ -2,7 +2,9 @@ $size: 1rem;
 .titre {
     font-size: $size;
 }
-
+.main {
+    height: 2.2*$size;
+}
 .bouton {
     height: 2.2*$size;
 }

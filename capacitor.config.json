@@ -2,5 +2,5 @@
 	"appId": "io.ionic.starter",
 	"appName": "magasin",
 	"webDir": "www",
-	"bundledWebRuntime": false
+	"bundledWebRuntime": false,
 }
