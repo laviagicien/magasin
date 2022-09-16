@@ -29,7 +29,7 @@
     "@capacitor/status-bar": "1.0.7",
     "@ionic-native/sqlite": "^5.36.0",
     "@ionic-native/sqlite-porter": "^5.36.0",
-    "@ionic/angular": "^6.1.1",
+    "@ionic/angular": "^6.1.5",
     "cordova-sqlite-storage": "^6.0.0",
     "date-fns": "^2.28.0",
     "install": "^0.13.0",

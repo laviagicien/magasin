@@ -23,9 +23,11 @@
             <ion-item>
               <ion-label class="list-label" position="floating">Date</ion-label>
               <ion-input [value]="dateValue2" id="open-date-input-2"></ion-input>
-              <ion-popover trigger="open-date-input-2" show-backdrop="false">
+              <ion-popover class="datePopover" trigger="open-date-input-2" show-backdrop="false" id="datePicker">
                 <ng-template>
                   <ion-datetime
+                    mode="md"
+                    size="cover"
                     #popoverDatetime2
                     presentation="date"
                     locale="fr-FR"
@@ -44,7 +46,7 @@
       </ion-grid>         
       <ion-list >
         <ion-item *ngFor= "let item of items">
-          <ion-label class="list-label">{{item.getId()}}</ion-label>
+          <ion-label class="list-label">{{item.getNb()}}</ion-label>
           <ion-label class="list-label">{{item.getName()}}</ion-label>
           <ion-label class="list-label">{{item.getDate()}}</ion-label>
           <ion-button shape="round" color="danger" size="defeult" class="list-bouton">

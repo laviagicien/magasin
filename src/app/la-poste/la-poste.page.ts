@@ -3,6 +3,7 @@ import { IonDatetime } from '@ionic/angular';
 import { format, parseISO } from 'date-fns';
 import { fr } from 'date-fns/locale';
 import { Poste } from '../poste';
+import { DatabaseService } from '../services/database.service';
 
 
 @Component({
@@ -21,7 +22,7 @@ export class LaPostePage implements OnInit {
     new Poste('2C10969809802', 'Doctor Who', '23/03/2022'),
   ]
 
-  constructor() { }
+  constructor(private databaseService: DatabaseService) { }
 
   ngOnInit() {
   }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ViewDidEnter } from '@ionic/angular';
 import { cpuUsage } from 'process';
+import { DatabaseService } from '../services/database.service';
 
 @Component({
   selector: 'app-mondial-relay',
@@ -13,12 +14,10 @@ export class MondialRelayPage implements OnInit {
   
   
 
-  constructor() { }
+  constructor(private databaseService: DatabaseService) { }
 
   ngOnInit() {
     const selects = document.querySelector('ion-select');
-    console.log(selects)
     selects.interfaceOptions= {cssClass : 'custom-popover'}
-    
   }
 }

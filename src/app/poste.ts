@@ -1,16 +1,16 @@
 export class Poste {
-    private id: string;
+    private nb: string;
     private name: string; 
     private date: string;
 
-    constructor (id: string, name: string, date: string) {
-        this.id = id;
+    constructor (nb: string, name: string, date: string) {
+        this.nb = nb;
         this.name = name;
         this.date = date;
     }
 
-    getId (){
-        return this.id;
+    getNb (){
+        return this.nb;
     }
     getName (){
         return this.name;
