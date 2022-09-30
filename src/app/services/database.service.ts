@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 
 import { Platform } from '@ionic/angular';
-import { SQLitePorter } from '@ionic-native/sqlite-porter/ngx';
-import { HttpClient } from '@angular/common/http';
 import {SQLite, SQLiteObject} from '@ionic-native/sqlite/ngx'
 import { BehaviorSubject, Observable } from 'rxjs';
+import { Poste } from '../poste';
+import { Mondial } from '../mondial';
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +18,8 @@ export class DatabaseService {
   laposte = new BehaviorSubject([])
   mondial = new BehaviorSubject([])
 
-  constructor(private plt: Platform, private sqlitePorter: SQLitePorter, 
-              private sqlite: SQLite, private http: HttpClient) {
+  constructor(private plt: Platform, 
+              private sqlite: SQLite) {
     this.plt.ready().then(() => {
       this.sqlite.create({
         name: 'postemr.db', 
@@ -41,10 +43,53 @@ export class DatabaseService {
         id INT PRIMARY KEY, 
         nb TEXT, 
         nom TEXT, 
-        casier TEXT)
+        casier TEXT);
+      INSERT OR IGNORE INTO LaPoste(nb, nom, date) VALUES (
+        '2C10980296980', 
+        'John Doe', 
+        NOW()
+      );
+      INSERT OR IGNORE INTO Mondial(nb, nom, casier) VALUES (
+        '65758415',
+        'John Doe',
+        'D'
+      )
       `, [])
-          .then(()=> { console.log('Table Created')})
+          .then(()=> { 
+            this.loadPoste()
+            console.log('Table Created')})
           .catch(e=> {console.error(e)});
     }
 
+    getDatabaseState() {
+      return this, this.databaseReady.asObservable();
+    }
+
+    getLaposte(): Observable<Poste[]> {
+      return this.laposte.asObservable();
+    }
+
+    getMondial(): Observable<Mondial[]> {
+      return this.laposte.asObservable();
+    }
+
+    loadPoste() {
+      return this.database.executeSql('SELECT * FROM LaPoste', []).then(data =>{
+        let laPoste: Poste[];
+
+        if(data.rows.length > 0) {
+          for (var i=0; i < data.rows.length; i++) {
+            laPoste.push(
+              new Poste(data.rows.item[i].id,
+                        data.rows.item[i].nb,
+                        data.rows.item[i].nom,
+                        data.rows.item[i].date
+                        ));
+          }
+
+          this.laposte.next(laPoste)
+        }
+      })
+    }
+    
 }
