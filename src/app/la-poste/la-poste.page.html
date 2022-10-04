@@ -10,19 +10,19 @@
           <ion-col size="3.5">
             <ion-item>
               <ion-label class="list-label" position="floating">N° de l'objet</ion-label>
-              <ion-input class="input" type="text"  clearInput></ion-input>
+              <ion-input [(ngModel)]="nbValue" class="input" type="text"  clearInput></ion-input>
             </ion-item>
           </ion-col>
           <ion-col size="3.5">
             <ion-item>
               <ion-label class="list-label" position="floating">Nom & Prénom</ion-label>
-              <ion-input class="input" type="text"  clearInput></ion-input>
+              <ion-input [(ngModel)]="nameValue" class="input" type="text"  clearInput></ion-input>
             </ion-item>
           </ion-col>
           <ion-col size="4">
             <ion-item>
               <ion-label class="list-label" position="floating">Date</ion-label>
-              <ion-input [value]="dateValue2" id="open-date-input-2"></ion-input>
+              <ion-input [(ngModel)]="dateValue2" id="open-date-input-2"></ion-input>
               <ion-popover class="datePopover" trigger="open-date-input-2" show-backdrop="false" id="datePicker">
                 <ng-template>
                   <ion-datetime
@@ -31,6 +31,7 @@
                     #popoverDatetime2
                     presentation="date"
                     locale="fr-FR"
+                    [showDefaultButtons]="true"
                     (ionChange)="dateValue2 = formatDate(popoverDatetime2.value)"
                   ></ion-datetime>
                 </ng-template>
@@ -38,7 +39,7 @@
             </ion-item>
           </ion-col>
           <ion-col class="button-col" size="1">
-              <ion-button shape="round" color="success" size="defeult" class="list-bouton">
+              <ion-button shape="round" color="success" size="defeult" class="list-bouton" (click)="addDataPoste()">
                 <ion-icon name="checkbox-outline"></ion-icon>
               </ion-button>
           </ion-col>
@@ -48,8 +49,8 @@
         <ion-item *ngFor= "let item of items">
           <ion-label class="list-label">{{item.getNb()}}</ion-label>
           <ion-label class="list-label">{{item.getName()}}</ion-label>
-          <ion-label class="list-label">{{item.getDate()}}</ion-label>
-          <ion-button shape="round" color="danger" size="defeult" class="list-bouton">
+          <ion-label class="list-label">{{formatDate(item.getDate())}}</ion-label>
+          <ion-button shape="round" color="danger" size="defeult" class="list-bouton" (click)="deleteDataPoste(item.getId())">
             <ion-icon name="trash-outline"></ion-icon>
           </ion-button>
         </ion-item>

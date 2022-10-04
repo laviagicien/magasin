@@ -5,6 +5,8 @@ import {SQLite, SQLiteObject} from '@ionic-native/sqlite/ngx'
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Poste } from '../poste';
 import { Mondial } from '../mondial';
+import { format, parseISO } from 'date-fns';
+import { fr } from 'date-fns/locale';
 
 
 
@@ -34,35 +36,29 @@ export class DatabaseService {
 
     createTable() {
       this.database.executeSql(`
-      CREATE TABLE IF NOT EXISTS LaPoste (
-        id INT PRIMARY KEY, 
-        nb TEXT, 
-        nom TEXT, 
-        date DATETIME);
-      CREATE TABLE IF NOT EXISTS Mondial (
-        id INT PRIMARY KEY, 
-        nb TEXT, 
-        nom TEXT, 
-        casier TEXT);
-      INSERT OR IGNORE INTO LaPoste(nb, nom, date) VALUES (
-        '2C10980296980', 
-        'John Doe', 
-        NOW()
-      );
-      INSERT OR IGNORE INTO Mondial(nb, nom, casier) VALUES (
-        '65758415',
-        'John Doe',
-        'D'
-      )
-      `, [])
-          .then(()=> { 
-            this.loadPoste()
-            console.log('Table Created')})
-          .catch(e=> {console.error(e)});
+        CREATE TABLE IF NOT EXISTS laposte (
+          id INTEGER PRIMARY KEY,
+          nb TEXT,
+          nom TEXT,
+          date DATETIME)
+        `, []).then(()=> {
+          this.database.executeSql(`
+          CREATE TABLE IF NOT EXISTS mondial (
+            id INTEGER PRIMARY KEY,
+            nb TEXT,
+            nom TEXT,
+            casier TEXT)
+          `, []).then(() => {
+                console.log('Table Created');
+                this.loadPoste();
+                this.loadMondial();
+                this.databaseReady.next(true)
+              })
+          }).catch(e => {console.log(e)})
     }
 
     getDatabaseState() {
-      return this, this.databaseReady.asObservable();
+      return this.databaseReady.asObservable();
     }
 
     getLaposte(): Observable<Poste[]> {
@@ -70,25 +66,77 @@ export class DatabaseService {
     }
 
     getMondial(): Observable<Mondial[]> {
-      return this.laposte.asObservable();
+      return this.mondial.asObservable();
     }
 
     loadPoste() {
-      return this.database.executeSql('SELECT * FROM LaPoste', []).then(data =>{
-        let laPoste: Poste[];
+      return this.database.executeSql('SELECT * FROM laposte', []).then(data =>{
+        let laPoste: Poste[] = [];
 
         if(data.rows.length > 0) {
           for (var i=0; i < data.rows.length; i++) {
             laPoste.push(
-              new Poste(data.rows.item[i].id,
-                        data.rows.item[i].nb,
-                        data.rows.item[i].nom,
-                        data.rows.item[i].date
+              new Poste(data.rows.item(i).id,
+                        data.rows.item(i).nb,
+                        data.rows.item(i).nom,
+                        data.rows.item(i).date
                         ));
           }
 
           this.laposte.next(laPoste)
-        }
+        } else { console.log ('database empty')}
+      })
+    }
+
+    loadMondial() {
+      return this.database.executeSql('SELECT * FROM mondial', []).then(data =>{
+        let mondial: Mondial[] = [];
+
+        if(data.rows.length > 0) {
+          for (var i=0; i < data.rows.length; i++) {
+            mondial.push(
+              new Mondial(data.rows.item(i).id,
+                        data.rows.item(i).nb,
+                        data.rows.item(i).nom,
+                        data.rows.item(i).casier
+                        ));
+          }
+          this.mondial.next(mondial);
+        } else { console.log ('database empty')}
+      })
+
+    }
+
+    addPoste(nb: string, nom: string, date: Date) {
+      let data = [nb, nom, date.toISOString()];
+      return this.database.executeSql(`
+      INSERT INTO laposte (nb, nom, date) VALUES (?, ?, ?)
+      `, data).then(() => {
+        this.loadPoste();
+      });
+    }
+
+    deletePoste(id) {
+      return this.database.executeSql(`
+      DELETE FROM laposte WHERE id = ?
+      `, [id]).then(()=>{
+        this.loadPoste();
+      })
+    }
+
+    addMondial(nb:string, nom:string, casier:string) {
+      let data = [nb, nom, casier]
+      return this.database.executeSql(`
+      INSERT INTO mondial (nb, nom, casier) VALUES (?, ?, ?)
+      `, data).then(()=>
+      this.loadMondial())
+    }
+
+    deleteMondial(id) {
+      return this.database.executeSql(`
+      DELETE FROM mondial WHERE id = ?
+      `, [id]).then(()=>{
+        this.loadMondial();
       })
     }
     

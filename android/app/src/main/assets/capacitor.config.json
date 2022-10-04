@@ -1,1 +1,6 @@
-{}
+{
+	"appId": "La Poste / Mondial Relay",
+	"appName": "magasin",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}

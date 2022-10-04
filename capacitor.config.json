@@ -1,6 +1,6 @@
 {
-	"appId": "io.ionic.starter",
+	"appId": "La Poste / Mondial Relay",
 	"appName": "magasin",
 	"webDir": "www",
-	"bundledWebRuntime": false,
+	"bundledWebRuntime": false
 }

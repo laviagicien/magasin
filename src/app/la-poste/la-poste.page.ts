@@ -1,3 +1,4 @@
+import { getLocaleDateFormat } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonDatetime } from '@ionic/angular';
 import { format, parseISO } from 'date-fns';
@@ -15,16 +16,21 @@ export class LaPostePage implements OnInit {
   @ViewChild(IonDatetime, { static: true }) datetime: IonDatetime;
 
   dateValue = '';
-  dateValue2 = format(parseISO(new Date().toISOString()), 'dd/MM/yyyy', {locale: fr});
-  items = [
-    new Poste(1,'2C10980296980', 'John Doe', '22/01/2022'),
-    new Poste(2,'2C29010980698', 'Jane Smith', '27/03/2022'),
-    new Poste(3,'2C10969809802', 'Doctor Who', '23/03/2022'),
-  ]
+  dateValue2 = this.formatDate(new Date().toISOString());
+  nameValue = '';
+  nbValue = '';
+  items: Poste[] = [];
 
   constructor(private databaseService: DatabaseService) { }
 
   ngOnInit() {
+    this.databaseService.getDatabaseState().subscribe(rdy => {
+      if (rdy) {
+        this.databaseService.getLaposte().subscribe(postes => {
+          this.items = postes;
+        })
+      }
+    })
   }
 
   confirm() {
@@ -38,6 +44,19 @@ export class LaPostePage implements OnInit {
   formatDate(value: string) {
     return format(parseISO(value), 'dd/MM/yyyy', {locale: fr});
   }
+
+  addDataPoste() {
+    if(this.nameValue === '' || this.nbValue === '') {
+      alert('Attention, un ou plusieurs champs sont vides')
+    } else {
+      let sendDate = this.dateValue2.split('/')
+      this.databaseService.addPoste(this.nbValue, this.nameValue, new Date(parseInt(sendDate[2]),parseInt(sendDate[1])-1, parseInt(sendDate[0]) ))
+    }
+  }
+  deleteDataPoste(id) {
+    this.databaseService.deletePoste(id)
+  }
+
 
 
 }
