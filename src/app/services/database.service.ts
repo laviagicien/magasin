@@ -84,7 +84,10 @@ export class DatabaseService {
           }
 
           this.laposte.next(laPoste)
-        } else { console.log ('database empty')}
+        } else { 
+        console.log ('database empty') 
+          this.laposte.next(laPoste)
+      }
       })
     }
 
@@ -102,7 +105,10 @@ export class DatabaseService {
                         ));
           }
           this.mondial.next(mondial);
-        } else { console.log ('database empty')}
+        } else { 
+          console.log ('database empty');
+          this.mondial.next(mondial)
+        }
       })
 
     }
